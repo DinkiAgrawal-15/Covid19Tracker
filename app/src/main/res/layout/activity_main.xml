@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main_swipe_refresh_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -171,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="234,333"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="24sp"/>
 
@@ -181,7 +182,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="25dp"
                             android:gravity="center"
-                            android:text="+2,333"
+                            android:text=""
                             android:textColor="@color/yellow"
                             android:textSize="16sp"/>
 
@@ -222,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="234,333"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="24sp"/>
 
@@ -232,7 +233,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="25dp"
                             android:gravity="center"
-                            android:text="+2,333"
+                            android:text=""
                             android:textColor="@color/blue"
                             android:textSize="16sp"/>
 
@@ -274,7 +275,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="234,333"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="24sp"/>
 
@@ -284,7 +285,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="25dp"
                             android:gravity="center"
-                            android:text="+2,333"
+                            android:text=""
                             android:textColor="@color/green"
                             android:textSize="16sp"/>
 
@@ -325,7 +326,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="234,333"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="24sp"/>
 
@@ -335,7 +336,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="25dp"
                             android:gravity="center"
-                            android:text="+2,333"
+                            android:text=""
                             android:textColor="@color/red"
                             android:textSize="16sp"/>
 
@@ -377,7 +378,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="234,333"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="24sp"/>
 
@@ -387,7 +388,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="25dp"
                             android:gravity="center"
-                            android:text="+2,333"
+                            android:text=""
                             android:textColor="@color/pink"
                             android:textSize="16sp"/>
 
@@ -418,7 +419,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25dp"
                             android:gravity="center"
-                            android:text="Deaths"
+                            android:text="Last Updated"
                             android:textColor="@color/orange"
                             android:textSize="16sp"/>
 
@@ -428,7 +429,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="07:00 PM"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="24sp"/>
 
@@ -438,7 +439,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="25dp"
                             android:gravity="center"
-                            android:text="15 June 2020"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="16sp"/>
 
@@ -457,6 +458,7 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/activity_main_statewise_lin"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
@@ -493,6 +495,7 @@
                     app:cardElevation="4dp">
 
                     <LinearLayout
+                        android:id="@+id/activity_main_world_data_lin"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
