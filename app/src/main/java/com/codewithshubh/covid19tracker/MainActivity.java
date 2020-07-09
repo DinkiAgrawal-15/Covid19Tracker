@@ -47,30 +47,28 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv_confirmed, tv_confirmed_new, tv_active, tv_active_new, tv_recovered, tv_recovered_new, tv_death,
             tv_death_new, tv_tests, tv_tests_new, tv_date, tv_time;
 
-    private LinearLayout lin_state_data, lin_world_data;
-
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private PieChart pieChart;
 
+    private LinearLayout lin_state_data, lin_world_data;
+
     private String str_confirmed, str_confirmed_new, str_active, str_active_new, str_recovered, str_recovered_new,
             str_death, str_death_new, str_tests, str_tests_new, str_last_update_time;
-
-    private int int_active_new = 0;
-
+    private int int_active_new;
     private ProgressDialog progressDialog;
-
-    private boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce;
     private Toast backPressToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //setting toolbar text
+
+        //setting up the titlebar text
         getSupportActionBar().setTitle("Covid-19 Tracker (India)");
 
-        //Initialize views
+        //Initialise
         Init();
 
         //Fetch data from API
@@ -88,47 +86,24 @@ public class MainActivity extends AppCompatActivity {
         lin_state_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "State Data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "State data", Toast.LENGTH_SHORT).show();
             }
         });
 
         lin_world_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "World Data", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "World data", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, WorldDataActivity.class));
             }
         });
-
-    }
-
-    public String FormatDate(String date, int testCase) {
-        Date mDate = null;
-        String dateFormat;
-        try {
-            mDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US).parse(date);
-            if (testCase == 0) {
-                dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a").format(mDate);
-                return dateFormat;
-            } else if (testCase == 1) {
-                dateFormat = new SimpleDateFormat("dd MMM yyyy").format(mDate);
-                return dateFormat;
-            } else if (testCase == 2) {
-                dateFormat = new SimpleDateFormat("hh:mm a").format(mDate);
-                return dateFormat;
-            } else {
-                Log.d("error", "Wrong input! Choose from 0 to 2");
-                return "Error";
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return date;
-        }
     }
 
     private void FetchData() {
 
         //show progress dialog
         ShowDialog();
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String apiUrl = "https://api.covid19india.org/data.json";
 
@@ -141,13 +116,14 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         //As the data of the json are in a nested array, so we need to define the array from which we want to fetch the data.
                         JSONArray all_state_jsonArray = null;
                         JSONArray testData_jsonArray = null;
+
                         try {
                             all_state_jsonArray = response.getJSONArray("statewise");
                             testData_jsonArray = response.getJSONArray("tested");
-
                             JSONObject data_india = all_state_jsonArray.getJSONObject(0);
                             JSONObject test_data_india = testData_jsonArray.getJSONObject(testData_jsonArray.length()-1);
 
@@ -175,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     //Setting text in the textview
                                     tv_confirmed.setText(NumberFormat.getInstance().format(Integer.parseInt(str_confirmed)));
-                                    tv_confirmed_new.setText("+"+NumberFormat.getInstance().format(Integer.parseInt(str_confirmed_new)));
+                                    tv_confirmed_new.setText("+" + NumberFormat.getInstance().format(Integer.parseInt(str_confirmed_new)));
 
                                     tv_active.setText(NumberFormat.getInstance().format(Integer.parseInt(str_active)));
 
@@ -200,13 +176,18 @@ public class MainActivity extends AppCompatActivity {
                                     pieChart.addPieSlice(new PieModel("Deceased", Integer.parseInt(str_death), Color.parseColor("#F6404F")));
 
                                     pieChart.startAnimation();
+
                                     DismissDialog();
+
                                 }
                             }, 1000);
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -218,10 +199,6 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void DismissDialog() {
-        progressDialog.dismiss();
-    }
-
     private void ShowDialog() {
         //setting up progress dialog
         progressDialog = new ProgressDialog(this);
@@ -231,10 +208,35 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
+    private void DismissDialog() {
+        progressDialog.dismiss();
+    }
 
+    public String FormatDate(String date, int testCase) {
+        Date mDate = null;
+        String dateFormat;
+        try {
+            mDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US).parse(date);
+            if (testCase == 0) {
+                dateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a").format(mDate);
+                return dateFormat;
+            } else if (testCase == 1) {
+                dateFormat = new SimpleDateFormat("dd MMM yyyy").format(mDate);
+                return dateFormat;
+            } else if (testCase == 2) {
+                dateFormat = new SimpleDateFormat("hh:mm a").format(mDate);
+                return dateFormat;
+            } else {
+                Log.d("error", "Wrong input! Choose from 0 to 2");
+                return "Error";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return date;
+        }
+    }
 
     private void Init() {
-        pieChart = findViewById(R.id.activity_main_piechart);
         tv_confirmed = findViewById(R.id.activity_main_confirmed_textview);
         tv_confirmed_new = findViewById(R.id.activity_main_confirmed_new_textview);
         tv_active = findViewById(R.id.activity_main_active_textview);
@@ -247,13 +249,16 @@ public class MainActivity extends AppCompatActivity {
         tv_tests_new = findViewById(R.id.activity_main_samples_new_textview);
         tv_date = findViewById(R.id.activity_main_date_textview);
         tv_time = findViewById(R.id.activity_main_time_textview);
-        swipeRefreshLayout = findViewById(R.id.activity_main_swipe_refresh_layout);
-    }
 
+        pieChart = findViewById(R.id.activity_main_piechart);
+        swipeRefreshLayout = findViewById(R.id.activity_main_swipe_refresh_layout);
+        lin_state_data = findViewById(R.id.activity_main_statewise_lin);
+        lin_world_data = findViewById(R.id.activity_main_world_data_lin);
+
+    }
 
     @Override
     public void onBackPressed() {
-
         if (doubleBackToExitPressedOnce) {
             backPressToast.cancel();
             super.onBackPressed();
@@ -271,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -282,9 +286,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_about){
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
-            //Toast.makeText(MainActivity.this, "About menu icon clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "About menu icon clicked", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
